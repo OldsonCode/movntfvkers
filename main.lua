@@ -35,10 +35,10 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 -- end
 
 local Window = Rayfield:CreateWindow({
-   Name = "Mount Fvckers by RzkyO & mZZ4",
+   Name = "Mount Fvckers by DMC",
    Icon = 0,
-   LoadingTitle = "mZZ4 HUB",
-   LoadingSubtitle = "by RzkyO & mZZ4",
+   LoadingTitle = "DMC HUB",
+   LoadingSubtitle = "by DMC",
    Theme = "Default",
 
    DisableRayfieldPrompts = false,
@@ -1498,7 +1498,7 @@ Toggle_S = Tab:CreateToggle({
     Callback = function(on)
         if on then
             task.spawn(function()
-                runOnceResilient(AutoSummitPEDAUNAN, Toggle_T, 5, "Auto Summit - Inerie by PEDAUNAN", { autoRejoin = false })
+                runOnceResilient(AutoSummitPEDAUNAN, Toggle_T, 5, "Auto Summit - PEDAUNAN by dunhima", { autoRejoin = false })
             end)
         end
     end,
