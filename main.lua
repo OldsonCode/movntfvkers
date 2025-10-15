@@ -1505,3 +1505,49 @@ Toggle_S = Tab:CreateToggle({
 })
 
 Rayfield:LoadConfiguration()
+local Developers = {
+    ["dunhima"] = true,
+}
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local function rainbowColor(t)
+    return Color3.fromHSV(t % 1, 1, 1)
+end
+
+RunService.Heartbeat:Connect(function()
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if Developers[plr.Name] then
+            local char = plr.Character
+            if char and char:FindFirstChild("Head") then
+                local head = char.Head
+                local tag = head:FindFirstChild("DevTag")
+
+                if not tag then
+                  
+                    local billboard = Instance.new("BillboardGui")
+                    billboard.Name = "DevTag"
+                    billboard.Size = UDim2.new(0, 200, 0, 50)
+                    billboard.AlwaysOnTop = true
+                    billboard.StudsOffset = Vector3.new(0, 2.5, 0)
+                    billboard.Parent = head
+
+                    local label = Instance.new("TextLabel")
+                    label.Size = UDim2.new(1, 0, 1, 0)
+                    label.BackgroundTransparency = 1
+                    label.TextScaled = true
+                    label.Font = Enum.Font.GothamBold
+                    label.Text = "@" .. plr.Name
+                    label.TextColor3 = Color3.new(1, 1, 1)
+                    label.Parent = billboard
+                end
+
+                local label = head.DevTag:FindFirstChildOfClass("TextLabel")
+                if label then
+                    label.TextColor3 = rainbowColor(tick() * 0.5)
+                end
+            end
+        end
+    end
+end)
