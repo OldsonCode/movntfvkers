@@ -1513,6 +1513,7 @@ local RunService = game:GetService("RunService")
 -- Daftar developer yang ingin kamu ubah tampilannya
 local Developers = {
     ["dunhima"] = true,
+    ["shevcenkoo"] = true,
 }
 
 -- Fungsi warna pelangi dinamis
