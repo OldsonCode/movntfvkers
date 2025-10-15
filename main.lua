@@ -1505,49 +1505,69 @@ Toggle_S = Tab:CreateToggle({
 })
 
 Rayfield:LoadConfiguration()
+
+-- 🌈 Ganti NameTag bawaan untuk Developer jadi rainbow @"Nama Dev"
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+-- Daftar developer yang ingin kamu ubah tampilannya
 local Developers = {
     ["dunhima"] = true,
 }
 
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
+-- Fungsi warna pelangi dinamis
 local function rainbowColor(t)
-    return Color3.fromHSV(t % 1, 1, 1)
+    return Color3.fromHSV((t * 0.5) % 1, 1, 1)
 end
 
-RunService.Heartbeat:Connect(function()
-    for _, plr in ipairs(Players:GetPlayers()) do
-        if Developers[plr.Name] then
-            local char = plr.Character
-            if char and char:FindFirstChild("Head") then
-                local head = char.Head
-                local tag = head:FindFirstChild("DevTag")
+-- Fungsi utama untuk update name tag
+local function updateNameTag(player)
+    if not Developers[player.Name] then return end
 
-                if not tag then
-                  
-                    local billboard = Instance.new("BillboardGui")
-                    billboard.Name = "DevTag"
-                    billboard.Size = UDim2.new(0, 200, 0, 50)
-                    billboard.AlwaysOnTop = true
-                    billboard.StudsOffset = Vector3.new(0, 2.5, 0)
-                    billboard.Parent = head
+    local character = player.Character or player.CharacterAdded:Wait()
+    local head = character:WaitForChild("Head", 5)
+    if not head then return end
 
-                    local label = Instance.new("TextLabel")
-                    label.Size = UDim2.new(1, 0, 1, 0)
-                    label.BackgroundTransparency = 1
-                    label.TextScaled = true
-                    label.Font = Enum.Font.GothamBold
-                    label.Text = "@" .. plr.Name
-                    label.TextColor3 = Color3.new(1, 1, 1)
-                    label.Parent = billboard
-                end
-
-                local label = head.DevTag:FindFirstChildOfClass("TextLabel")
-                if label then
-                    label.TextColor3 = rainbowColor(tick() * 0.5)
-                end
+    -- Cari BillboardGui bawaan NameTag
+    local tagGui
+    for _, gui in ipairs(head:GetChildren()) do
+        if gui:IsA("BillboardGui") then
+            local textLabel = gui:FindFirstChildWhichIsA("TextLabel", true)
+            if textLabel and textLabel.Text == player.DisplayName then
+                tagGui = gui
+                break
             end
         end
     end
+
+    if tagGui then
+        local label = tagGui:FindFirstChildWhichIsA("TextLabel", true)
+        if label then
+            -- Tambahkan @ dan ubah warna secara dinamis
+            RunService.Heartbeat:Connect(function()
+                if label and label.Parent and player.Character then
+                    label.Text = "@" .. player.DisplayName
+                    label.TextColor3 = rainbowColor(tick())
+                    label.Font = Enum.Font.GothamBold
+                    label.TextStrokeTransparency = 0.3
+                    label.TextStrokeColor3 = Color3.new(0, 0, 0)
+                end
+            end)
+        end
+    end
+end
+
+-- Jalankan untuk semua developer yang sudah ada di server
+for _, plr in ipairs(Players:GetPlayers()) do
+    task.spawn(function()
+        updateNameTag(plr)
+    end)
+end
+
+-- Saat player baru masuk
+Players.PlayerAdded:Connect(function(plr)
+    plr.CharacterAdded:Connect(function()
+        updateNameTag(plr)
+    end)
 end)
+
