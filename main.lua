@@ -397,6 +397,217 @@ local FlyVertSlider = Tab:CreateSlider({
 
 -- Players Tab
 
+----------------------------------------------------------
+-- ✈️ Fly Mode + ESP Highlight (sebelum Players Tab)
+----------------------------------------------------------
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+----------------------------------------------------------
+-- ✈️ Fly Mode
+----------------------------------------------------------
+local flyEnabled = false
+local flyConn, flyGui
+local flyUpPressed, flyDownPressed = false, false
+local flySpeed, flyVerticalSpeed = 60, 40
+
+local function createFlyGui()
+    if flyGui then return flyGui end
+    local pg = LocalPlayer:WaitForChild("PlayerGui")
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "FlyControlGui"
+    gui.ResetOnSpawn = false
+    gui.Parent = pg
+
+    local frame = Instance.new("Frame")
+    frame.AnchorPoint = Vector2.new(1, 0.5)
+    frame.Position = UDim2.new(0.985, 0, 0.5, 0)
+    frame.Size = UDim2.new(0, 120, 0, 220)
+    frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    frame.BackgroundTransparency = 0.3
+    frame.Parent = gui
+    Instance.new("UICorner", frame)
+
+    local upBtn = Instance.new("TextButton")
+    upBtn.Size = UDim2.new(1, -12, 0, 90)
+    upBtn.Position = UDim2.new(0, 6, 0, 10)
+    upBtn.Text = "▲ UP"
+    upBtn.Font = Enum.Font.GothamBold
+    upBtn.TextScaled = true
+    upBtn.BackgroundTransparency = 0.2
+    upBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    upBtn.Parent = frame
+
+    local downBtn = Instance.new("TextButton")
+    downBtn.Size = UDim2.new(1, -12, 0, 90)
+    downBtn.Position = UDim2.new(0, 6, 0, 120)
+    downBtn.Text = "▼ DOWN"
+    downBtn.Font = Enum.Font.GothamBold
+    downBtn.TextScaled = true
+    downBtn.BackgroundTransparency = 0.2
+    downBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    downBtn.Parent = frame
+
+    local function setUp(v) flyUpPressed = v end
+    local function setDown(v) flyDownPressed = v end
+    upBtn.MouseButton1Down:Connect(function() setUp(true) end)
+    upBtn.MouseButton1Up:Connect(function() setUp(false) end)
+    upBtn.MouseLeave:Connect(function() setUp(false) end)
+    downBtn.MouseButton1Down:Connect(function() setDown(true) end)
+    downBtn.MouseButton1Up:Connect(function() setDown(false) end)
+    downBtn.MouseLeave:Connect(function() setDown(false) end)
+
+    flyGui = gui
+    return gui
+end
+
+local function destroyFlyGui()
+    flyUpPressed, flyDownPressed = false, false
+    if flyGui then
+        flyGui:Destroy()
+        flyGui = nil
+    end
+end
+
+local function stopFly()
+    if not flyEnabled then return end
+    flyEnabled = false
+    if flyConn then flyConn:Disconnect() flyConn = nil end
+    destroyFlyGui()
+    local char = LocalPlayer.Character
+    if char then
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if hum then hum.PlatformStand = false end
+    end
+end
+
+local function startFly()
+    if flyEnabled then return end
+    flyEnabled = true
+    createFlyGui()
+    local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    local hrp = char:WaitForChild("HumanoidRootPart")
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    if hum then hum.PlatformStand = true end
+
+    flyConn = RunService.RenderStepped:Connect(function(dt)
+        if not flyEnabled or not char or not hrp then return end
+        local cam = workspace.CurrentCamera
+        local look = cam.CFrame.LookVector
+        local dir = Vector3.new(look.X, 0, look.Z).Unit
+        local vel = dir * flySpeed
+        if flyUpPressed then vel += Vector3.new(0, flyVerticalSpeed, 0)
+        elseif flyDownPressed then vel += Vector3.new(0, -flyVerticalSpeed, 0) end
+        hrp.AssemblyLinearVelocity = vel
+    end)
+end
+
+-- Toggle Fly Mode
+local FlyToggle = Tab:CreateToggle({
+    Name = "Fly Mode",
+    CurrentValue = false,
+    Flag = "FlyToggle",
+    Callback = function(v)
+        if v then startFly() else stopFly() end
+    end,
+})
+
+-- Slider kecepatan fly
+local FlySpeedSlider = Tab:CreateSlider({
+    Name = "Fly Speed",
+    Range = {10,150},
+    Increment = 5,
+    CurrentValue = flySpeed,
+    Flag = "FlySpeed",
+    Callback = function(v) flySpeed = v end,
+})
+
+local FlyVertSlider = Tab:CreateSlider({
+    Name = "Vertical Speed",
+    Range = {10,100},
+    Increment = 5,
+    CurrentValue = flyVerticalSpeed,
+    Flag = "FlyVertSpeed",
+    Callback = function(v) flyVerticalSpeed = v end,
+})
+
+LocalPlayer.CharacterRemoving:Connect(function() stopFly() end)
+
+----------------------------------------------------------
+-- 🔍 ESP Highlight System
+----------------------------------------------------------
+
+local highlights = {}
+local espEnabled = false
+
+local function createHighlight(player, color)
+    local highlight = Instance.new("Highlight")
+    highlight.Adornee = player.Character
+    highlight.FillColor = color
+    highlight.FillTransparency = 0.5
+    highlight.OutlineTransparency = 0
+    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    highlight.Enabled = true
+    highlight.Parent = workspace
+    highlights[player] = highlight
+end
+
+RunService.RenderStepped:Connect(function()
+    if not espEnabled then
+        for _, h in pairs(highlights) do
+            if h and h.Parent then
+                h.Enabled = false
+            end
+        end
+        return
+    end
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                if not highlights[player] then
+                    local color = Color3.fromRGB(255, 0, 0)
+                    createHighlight(player, color)
+                else
+                    highlights[player].Adornee = player.Character
+                    highlights[player].Enabled = true
+                end
+            else
+                if highlights[player] then
+                    highlights[player]:Destroy()
+                    highlights[player] = nil
+                end
+            end
+        end
+    end
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+    if highlights[player] then
+        highlights[player]:Destroy()
+        highlights[player] = nil
+    end
+end)
+
+local ESPToggle = Tab:CreateToggle({
+    Name = "ESP Highlight",
+    CurrentValue = false,
+    Flag = "ESP_Toggle",
+    Callback = function(Value)
+        espEnabled = Value
+        if not Value then
+            for _, h in pairs(highlights) do
+                if h and h.Parent then
+                    h.Enabled = false
+                end
+            end
+        end
+    end,
+})
+
+
 local function getRoot(model)
     if not model then return nil end
     return model:FindFirstChild("HumanoidRootPart")
