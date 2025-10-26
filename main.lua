@@ -1241,6 +1241,11 @@ local AutoSummitPEDAUNAN = {
     CFrame.new(47.14,8.81,314.09), -- BASECAMP
 }
 
+local AutoSummitChibi = {
+    CFrame.new(1297.42,6217.39,-4031.96), -- SUMMIT
+    CFrame.new(1297.42,6217.39,-4031.96), -- SUMMIT
+}
+
 local Toggle_A
 Toggle_A = Tab:CreateToggle({
     Name = "Auto Summit Gunung Yahayuk",
@@ -1492,13 +1497,26 @@ Toggle_S = Tab:CreateToggle({
 })
 
 local Toggle_T
-Toggle_S = Tab:CreateToggle({
+Toggle_T = Tab:CreateToggle({
     Name = "Auto Summit Gunung PEDAUNAN",
     CurrentValue = false,
     Callback = function(on)
         if on then
             task.spawn(function()
                 runOnceResilient(AutoSummitPEDAUNAN, Toggle_T, 5, "Auto Summit - PEDAUNAN by dunhima", { autoRejoin = false })
+            end)
+        end
+    end,
+})
+
+local Toggle_U
+Toggle_U = Tab:CreateToggle({
+    Name = "Auto Summit Mount Chibi",
+    CurrentValue = false,
+    Callback = function(on)
+        if on then
+            task.spawn(function()
+                runOnceResilient(AutoSummitChibi, Toggle_U, 5, "Auto Summit - Chibi by dunhima", { autoRejoin = false })
             end)
         end
     end,
@@ -1571,4 +1589,3 @@ Players.PlayerAdded:Connect(function(plr)
         updateNameTag(plr)
     end)
 end)
-
