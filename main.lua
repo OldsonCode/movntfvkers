@@ -976,15 +976,15 @@ end
 local Tab = Window:CreateTab("Auto Summit")
 local Section = Tab:CreateSection("- 3xplo Yang Tersedia -")
 
-local AutoSummitYahayuk = {
-    CFrame.new(-429.05, 265.50, 788.27), -- Camp 1
-    CFrame.new(-359.93, 405.13, 541.62), -- Camp 2
-    CFrame.new(288.24,  446.13, 506.28), -- Camp 3
-    CFrame.new(336.31,  507.13, 348.97), -- Camp 4
-    CFrame.new(224.20, 331.13, -144.73), -- Camp 5
-    CFrame.new(-614.06, 904.50, -551.25), -- Summit
-    CFrame.new(-674.25, 909.50, -481.76), -- Start
-}
+-- local AutoSummitYahayuk = {
+--     CFrame.new(-429.05, 265.50, 788.27), -- Camp 1
+--     CFrame.new(-359.93, 405.13, 541.62), -- Camp 2
+--     CFrame.new(288.24,  446.13, 506.28), -- Camp 3
+--     CFrame.new(336.31,  507.13, 348.97), -- Camp 4
+--     CFrame.new(224.20, 331.13, -144.73), -- Camp 5
+--     CFrame.new(-614.06, 904.50, -551.25), -- Summit
+--     CFrame.new(-674.25, 909.50, -481.76), -- Start
+-- }
 
 local AutoSummitCKPTW = {
     CFrame.new(517.06,160.18,-531.54), -- CP1
@@ -1262,7 +1262,7 @@ local AutoSummitChibi = {
 
 local Toggle_A
 Toggle_A = Tab:CreateToggle({
-    Name = "Auto Summit Gunung Yahayuk",
+    Name = "Auto Summit Gunung Yahayuk (WAIT FOR UPDATE)",
     CurrentValue = false,
     Callback = function(on)
         if on then
