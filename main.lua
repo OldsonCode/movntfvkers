@@ -1242,8 +1242,22 @@ local AutoSummitPEDAUNAN = {
 }
 
 local AutoSummitChibi = {
-    CFrame.new(1297.42,6217.39,-4031.96), -- SUMMIT
-    CFrame.new(1297.42,6217.39,-4031.96), -- SUMMIT
+    CFrame.new(-902.08,4612.10,-14472.88), -- CP 1
+    CFrame.new(-1127.07,4694.28,-15210.04), -- CP 2
+    CFrame.new(-1549.83,4774.31,-15329.93), -- CP 3
+    CFrame.new(-1054.03,4735.57,-15927.97), -- CP 4
+    CFrame.new(-794.88,4735.91,-15894.70), -- CP 5
+    CFrame.new(-766.33,4735.63,-15572.24), -- CP 6
+    CFrame.new(-392.70,4719.06,-15294.21), -- CP 7
+    CFrame.new(-4.47,4824.12,-15005.64), -- CP 8
+    CFrame.new(144.36,4821.37,-14811.44), -- CP 9
+    CFrame.new(631.83,4782.1,-15073.19), -- CP 10
+    CFrame.new(505.36,6412.36,-4043.26), -- CP 34
+    CFrame.new(36.81,6515.74,-4090.05), -- CP 35
+    CFrame.new(47.93,6516.54,-4447.22), -- CP 36
+    CFrame.new(-278.34,6516.54,-4400.61), -- CP 37
+    CFrame.new(-604.26,6601.74,-4444.74), -- SUMMIT
+    CFrame.new(-991.02,6598.46,-4575.44), -- BASECAMP
 }
 
 local Toggle_A
@@ -1511,7 +1525,7 @@ Toggle_T = Tab:CreateToggle({
 
 local Toggle_U
 Toggle_U = Tab:CreateToggle({
-    Name = "Auto Summit Mount Chibi",
+    Name = "Auto Summit Mount Chibi (Test)",
     CurrentValue = false,
     Callback = function(on)
         if on then
