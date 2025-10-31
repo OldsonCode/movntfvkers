@@ -976,15 +976,15 @@ end
 local Tab = Window:CreateTab("Auto Summit")
 local Section = Tab:CreateSection("- 3xplo Yang Tersedia -")
 
--- local AutoSummitYahayuk = {
---     CFrame.new(-429.05, 265.50, 788.27), -- Camp 1
---     CFrame.new(-359.93, 405.13, 541.62), -- Camp 2
---     CFrame.new(288.24,  446.13, 506.28), -- Camp 3
---     CFrame.new(336.31,  507.13, 348.97), -- Camp 4
---     CFrame.new(224.20, 331.13, -144.73), -- Camp 5
---     CFrame.new(-614.06, 904.50, -551.25), -- Summit
---     CFrame.new(-674.25, 909.50, -481.76), -- Start
--- }
+local AutoSummitYahayuk = {
+    CFrame.new(-429.05, 265.50, 788.27), -- Camp 1
+    CFrame.new(-359.93, 405.13, 541.62), -- Camp 2
+    CFrame.new(288.24,  446.13, 506.28), -- Camp 3
+    CFrame.new(336.31,  507.13, 348.97), -- Camp 4
+    CFrame.new(224.20, 331.13, -144.73), -- Camp 5
+    CFrame.new(-614.06, 904.50, -551.25), -- Summit
+    CFrame.new(-674.25, 909.50, -481.76), -- Start
+}
 
 local AutoSummitCKPTW = {
     CFrame.new(517.06,160.18,-531.54), -- CP1
@@ -1252,6 +1252,29 @@ local AutoSummitChibi = {
     CFrame.new(-4.47,4824.12,-15005.64), -- CP 8
     CFrame.new(144.36,4821.37,-14811.44), -- CP 9
     CFrame.new(631.83,4782.1,-15073.19), -- CP 10
+    CFrame.new(1064.26,4805.52,-15306.21), -- CP 11
+    CFrame.new(1074.58,4784.83,-14622.02), -- CP 12
+    CFrame.new(1131.15,5060.74,-13484.13), -- CP 13
+    CFrame.new(1011.02,5061.34,-12826.81), -- CP 14
+    CFrame.new(2262.22,5349.31,-12792.95), -- CP 15
+    CFrame.new(2254.99,5534.73,-12101.96), -- CP 16
+    CFrame.new(3093.04,5720.94,-11977.58), -- CP 17
+    CFrame.new(3082.15,5721.54,-11093.32), -- CP 18
+    CFrame.new(4253.74,5490.74,-11021.88), -- CP 19
+    CFrame.new(5170.34,5451.14,-11156.46), -- CP 20
+    CFrame.new(7012.17,5707.54,-11139.58), -- CP 21
+    CFrame.new(7002.49,5978.94,-10460.35), -- CP 22
+    CFrame.new(6970.90,5709.54,-9661.01), -- CP 23
+    CFrame.new(6812.95,5709.14,-8656.30), -- CP 24
+    CFrame.new(6015.73,5709.54,-8694.49), -- CP 25
+    CFrame.new(5325.41,5336.14,-8615.04), -- CP 26
+    CFrame.new(5128.35,5335.74,-8059.62), -- CP 27
+    CFrame.new(4175.86,5860.94,-6440.33), -- CP 28
+    CFrame.new(3219.28,5863.14,-6439.20), -- CP 29
+    CFrame.new(3200.63,5956.53,-6125.39), -- CP 30
+    CFrame.new(3136.42,6086.78,-5559.24), -- CP 31
+    CFrame.new(3202.44,5933.46,-4963.47), -- CP 32
+    CFrame.new(2423.21,5907.34,-4009.19), -- CP 33
     CFrame.new(505.36,6412.36,-4043.26), -- CP 34
     CFrame.new(36.81,6515.74,-4090.05), -- CP 35
     CFrame.new(47.93,6516.54,-4447.22), -- CP 36
@@ -1262,7 +1285,7 @@ local AutoSummitChibi = {
 
 local Toggle_A
 Toggle_A = Tab:CreateToggle({
-    Name = "Auto Summit Gunung Yahayuk (WAIT FOR UPDATE)",
+    Name = "Auto Summit Gunung Yahayuk",
     CurrentValue = false,
     Callback = function(on)
         if on then
