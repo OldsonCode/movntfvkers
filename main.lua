@@ -1291,7 +1291,7 @@ Toggle_C = Tab:CreateToggle({
     Callback = function(on)
         if on then
             spawn(function()
-                runOnceResilient(AutoSummitATIN, Toggle_C, 5, "Auto Summit - Atin by RzkyO", { autoRejoin = false })
+                runOnceResilient(AutoSummitATIN, Toggle_C, 5, "Auto Summit - Atin by Dunhima", { autoRejoin = false })
             end)
         end
     end,
